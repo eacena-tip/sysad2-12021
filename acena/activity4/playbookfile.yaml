@@ -1,0 +1,31 @@
+---
+ - name: Establishing in Ubuntu
+   hosts: ubuntu
+
+   tasks:
+   - name: Establishing a Java for the Ubuntu
+     apt:
+       name: default-jre
+       state: latest
+
+   - name: Installing openstack py packages, ansible, boto
+     pip:
+       name:
+         - ansible
+         - boto
+         - python-openstackclient
+
+ - name: Establishing in Centos
+   hosts: centos
+
+   tasks:
+     - name: Installing java for centos
+       yum:
+         name: java-11-openjdk-devel
+         state: latest
+     - name: Installing openstack py packages, ansible, boto
+       pip:
+         name:
+           - ansible
+           - boto
+           - python-openstackclient
