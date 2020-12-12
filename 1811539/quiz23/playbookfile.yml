@@ -1,0 +1,24 @@
+---
+- name: Ubuntu Installation
+  hosts: ubuntu
+  vars_files:
+   - group_vars/varfiles
+
+  roles:
+   - installapache
+
+- name: Establishing MySQL Packages
+  hosts: ubuntu
+  vars_files:
+   - group_vars/varfiles
+
+  roles:
+   - installmysql
+
+- name: PHP Packages establishing
+  hosts: ubuntu
+  vars_files:
+   - group_vars/varfiles
+
+  roles: 
+   - installphp
