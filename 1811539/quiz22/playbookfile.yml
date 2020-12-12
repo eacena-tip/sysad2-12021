@@ -1,0 +1,93 @@
+---
+- name: Ubuntu Installation 
+  hosts: ubuntu
+
+  tasks:
+  
+   - name: Ubuntu update of packages
+     apt:
+      update_cache: yes
+
+   - name: Establishing APACHE
+     apt:
+      name: apache2
+      state: latest
+
+   - name: APACHE version verification
+     shell: apache2 -v
+     register: apachev
+     
+   - name: Results
+     debug:
+       msg: "{{ apachev.stdout }}"
+    
+   - name: Enable the HTTP Traffic
+     ufw: 
+      rule: allow
+      direction: in
+      name: Apache
+
+- name: Establishing MySQL Packages
+  hosts: ubuntu
+
+  tasks:
+
+   - name: MySQL installation
+     apt:
+      name: mysql-server
+      state: latest
+
+   - name: Establishing MySQL-Python
+     apt:
+      name: python3-mysqldb
+      state: latest
+
+   - name: MySQL Begin
+     service:
+      name: mysql
+      state: started
+      enabled: true
+
+
+   - name: Executing the secure installation for removing MySQL test database
+     mysql_user:
+      login_user: 'root'
+      login_password: '{{ pass_word }}'
+      name: ''
+      host: localhost
+      state: absent
+
+   - name: Executing again secure installation for the test database
+     mysql_db:
+      login_user: 'root'
+      login_password: '{{ pass_word }}'
+      name: test
+      state: absent
+
+   - name: Verifying MySQL version
+     shell: mysql --version
+     register: mysqlv
+
+   - name: Result
+     debug:
+       msg: "{{ mysqlv.stdout }}"
+     
+- name: PHP Packages establishing
+  hosts: ubuntu
+  
+  tasks:
+
+  - name: Install PHP 
+    apt:
+     name:
+      - php
+      - libapache2-mod-php
+      - php-mysql
+
+  - name: Verifying the PHP version 
+    shell: php -v
+    register: phpv
+    
+  - name: Results
+    debug:
+      msg: "{{ phpv.stdout }}"
