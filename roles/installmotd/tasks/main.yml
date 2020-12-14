@@ -1,0 +1,4 @@
+---
+# tasks file for roles/installmotd
+- name: message of the day
+  shell: echo '{{ message }}' > /etc/message

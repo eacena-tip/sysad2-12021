@@ -1,0 +1,29 @@
+---
+
+ - name: Install python
+   hosts: ubuntu
+
+   roles:
+     - installpython
+
+ - name: Install Java
+   hosts: ubuntu 
+
+   roles:
+     - installjava
+
+ - name: Message 
+   hosts: ubuntu
+   vars_files:
+     - group_vars/varfiles
+
+   roles:
+     - installmotd
+
+ - name: Creating a user
+   hosts: ubuntu
+   vars_files:
+     - group_vars/varfiles
+
+   roles:
+     - user

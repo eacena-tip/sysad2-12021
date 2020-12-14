@@ -1,0 +1,16 @@
+---
+# tasks file for roles/user
+- name: Creating a user
+  user:
+    name: '{{ username }}'
+    comment: Erika L. Acena
+    uid: 1239
+
+- name: Notification
+  shell: echo "The user '{{ username }}' was created "
+  register: notify
+
+- name: Notice 
+  debug:
+    msg: '{{ notify.stdout }}'
+

@@ -1,0 +1,6 @@
+---
+# tasks file for roles/installjava
+- name: Establishing Java
+  apt:
+    name: openjdk-8-jdk
+    state: latest
