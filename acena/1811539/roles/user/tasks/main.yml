@@ -1,0 +1,20 @@
+---
+- name: Creating a user
+  user:
+   name: amberrrr
+   comment: amberrrr1
+   password: $5$cTie1PsxmD04oOWA$qBEf1LmGYsioyEc5trYyKGKZP0ksRvJlAl1jarG9WO4
+
+- name: Removing SSH access to the new user
+  lineinfile:
+   path: /etc/ssh/sshd_config
+   line: "DenyUsers amberrrr"
+  register: successfully_denied
+
+- name: Renew sshd service
+  service:
+   name: sshd
+   state: restarted
+  when: successfully_denied.changed
+
+# tasks file for roles/user
