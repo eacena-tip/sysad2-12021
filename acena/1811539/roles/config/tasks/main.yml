@@ -1,0 +1,40 @@
+---
+
+- name: Arranging directory files
+  copy:
+   src: /etc/apache2/sites-available/000-default.conf
+   remote_src: yes
+   dest: /website.conf
+
+- name: Configuring files
+  copy:
+   src: /website.conf
+   remote_src: yes
+   dest: /etc/apache2/sites-available
+
+- name: Checking configuration file
+  replace:
+   path: /etc/apache2/sites-available/website.conf
+   regexp: "ServerAdmin webmaster@localhost"
+   replace: "ServerAdmin amberrrr@example.com"
+
+- name: Checking document root
+  replace:
+   path:  /etc/apache2/sites-available/website.conf
+   regexp: '/var/www/html'
+   replace: '/var/www/website'
+
+- name: Creating a name for server
+  replace:
+   path:  /etc/apache2/sites-available/website.conf
+   regexp: "#ServerName www.example.com"
+   replace: "ServerName website.example.com"
+
+- name: Activating Virtual Host
+  command: a2ensite website.conf
+
+- name: Reloading Apache
+  service:
+   name: apache2
+   state: reloaded
+# tasks file for roles/config

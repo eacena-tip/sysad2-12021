@@ -1,0 +1,16 @@
+--- 
+- name: Establishing Apache and setup firewall
+  hosts: ubuntu
+  roles:
+    - apache
+
+
+- name: Directories for the website
+  hosts: ubuntu
+  roles:
+    - directories
+
+- name: Setup httpd
+  hosts: ubuntu
+  roles:
+    - config

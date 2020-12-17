@@ -1,0 +1,13 @@
+---
+# tasks file for roles/directories
+- name: Making a directory for a website
+  file:
+    path: /var/www/website
+    state: directory
+    owner: nobody
+    group: nogroup
+
+- name: Rendering index.html
+  copy:
+    src: index.html
+    dest: /var/www/website
