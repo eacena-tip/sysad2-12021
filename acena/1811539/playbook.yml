@@ -1,0 +1,14 @@
+- name: Installing Packges
+  hosts: ubuntu
+  roles:
+    - installing
+
+- name: Core installation
+  hosts: ubuntu
+  roles:
+    - Core
+
+- name: Plug Installation
+  hosts: ubuntu
+  roles:
+    - Plug
