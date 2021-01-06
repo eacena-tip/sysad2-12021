@@ -1,0 +1,54 @@
+- name: Establishing the Elastic search
+  hosts: Elastic_Search
+  vars_files:
+    - config.yml
+  roles:
+    - roleselastic
+
+- name: Establishing the Kibana
+  hosts: Kibana
+  vars_files:
+    - config.yml
+  roles:
+    - roleskibana
+
+- name: Establishing the Logstash
+  hosts: Logstash
+  vars_files:
+    - config.yml
+  roles:
+    - roleslogstash
+
+- name: Establishing the Nagios
+  hosts: Nagios
+  vars_files:
+    - config.yml
+  roles:
+    - rolesnagios
+
+- name: Establishing the Grafana
+  hosts: Grafana
+  roles:
+    - rolesngrafana
+
+- name: Establishing the Prometheus
+  hosts: Prometheus
+  roles:
+    - rolesprometheus
+
+- name: Establishing the Influxdb
+  hosts: Influxdb
+  roles:
+    - rolesinfluxdb
+
+- name: Establishing the Apache
+  hosts: Apache
+  vars_files:
+    - config.yml
+  roles:
+    - rolesapache
+
+- name: Establishing the Mariadb
+  hosts: Mariadb
+  roles:
+    - rolesmariadb

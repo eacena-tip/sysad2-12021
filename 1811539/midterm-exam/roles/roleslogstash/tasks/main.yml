@@ -1,0 +1,86 @@
+---
+# tasks file for roles/logstash
+- name: Establishing a Java
+  apt:
+   name: openjdk-11-jdk
+   update_cache: yes
+
+- name: Getting the Logstash GPG key and turn into APT
+  apt_key:
+   url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   state: present
+
+- name: Creating a source list for logstash  
+  lineinfile:
+   path: /etc/apt/sources.list.d/elastic-7.x.list
+   line: '{{ logstash_source }}'
+   create: yes
+
+- name: Establishing Logstash
+  apt:
+   name: logstash
+   update_cache: yes
+
+- name: Establishing a Filebeat
+  apt:
+   name: filebeat
+   update_cache: yes
+
+- name: Creating a 1st configuration file
+  copy:
+   src: 02-beats-input.conf
+   dest: /etc/logstash/conf.d
+
+- name: Creating a 2nd configuration file
+  copy:
+   src: 10-syslog-filter.conf
+   dest: /etc/logstash/conf.d
+ 
+- name: Creating a 3rd configuration file
+  copy:
+   src: 30-elasticsearch-output.conf
+   dest:  /etc/logstash/conf.d
+
+- name: Starting the Logstash
+  service:
+   name: logstash
+   state: started
+   enabled:
+
+- name: Conifguring the Filebeat Configuration output.elasticsearch
+  replace:
+   path: /etc/filebeat/filebeat.yml
+   regexp: 'output.elasticsearch:'
+   replace: '#output.elasticsearch:'
+
+- name: The Filebeat Configuration hosts
+  replace:
+   path: /etc/filebeat/filebeat.yml
+   regexp: 'hosts:'
+   replace: '#hosts:'
+   after: 'output.elasticsearch:'
+   before: 'Protocol - either'
+
+- name: Configuring the Filebeat Configuration output.logstash
+  replace:
+   path: /etc/filebeat/filebeat.yml
+   regexp: '#output.logstash:'
+   replace: 'output.logstash:'
+
+- name: Configuring the Filebeat Configuration hosts
+  replace:
+   path: /etc/filebeat/filebeat.yml
+   regexp: '#hosts:'
+   replace: 'hosts:'
+   after: 'output.logstash:'
+   before: ' Optional SSL.'
+
+- name: Enabling filebeat modules
+  shell: 'filebeat modules enable system'
+
+- name: Starting filebeat
+  service:
+   name: filebeat
+   state: started
+   enabled: yes
+# tasks file for roles/roleslogstash

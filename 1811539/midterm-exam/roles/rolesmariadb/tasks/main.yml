@@ -1,0 +1,19 @@
+---
+- name: Packages Update
+  apt:
+   update_cache: yes
+
+- name: Establishing MariaDB
+  apt:
+   name: mariadb-server
+   state: latest
+   update_cache: yes
+
+- name: Starting Mariadb
+  service:
+   name: mariadb
+   state: started
+   enabled: yes
+
+
+# tasks file for roles/rolesmariadb

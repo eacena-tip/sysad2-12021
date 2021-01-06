@@ -1,0 +1,61 @@
+---
+- name: Establishing a Nginx
+  apt:
+   name: nginx
+   update_cache: yes
+
+- name: Creating the Grafana public GPG key and turn into APT
+  apt_key:
+   url: https://packages.grafana.com/gpg.key
+   state: present
+
+- name: Creating a source list for grafana 
+  apt_repository:
+    repo: deb https://packages.grafana.com/oss/deb stable main
+    state: present
+
+- name: Update for packages
+  apt:
+   update_cache: yes
+
+- name: Establishing the Grafana
+  apt:
+   name: grafana
+   update_cache: yes
+
+
+- name: Starting Grafana server
+  service:
+   name: grafana-server
+   state: started
+   enabled: yes
+
+- name: Setup the Nginx
+  copy:
+   src: grafananginx
+   dest: /etc/nginx/sites-available
+
+- name: Reloading Nginx
+  systemd:
+   name: nginx
+   state: reloaded
+
+- name: Registration Disabled
+  replace:
+   path: /etc/grafana/grafana.ini
+   regexp: ";allow_sign_up = true"
+   replace: "allow_sign_up = false"
+   after: "# disable user signup / registration"
+
+- name: Removing Anonymous Access
+  replace:
+   path: /etc/grafana/grafana.ini
+   regexp: ";enabled = false"
+   replace: "enabled = false"
+   after: "# enable anonymous access"
+
+- name: Restarting Grafana
+  systemd:
+   name: grafana-server
+   state: restarted
+# tasks file for roles/rolesngrafana

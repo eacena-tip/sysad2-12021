@@ -1,0 +1,92 @@
+---
+- name: Update the need packages
+  apt:
+   name: unzip
+   update_cache: yes
+
+- name: Establishing a Nginx
+  apt:
+   name: nginx
+   update_cache: yes
+
+- name: Starting Nginx
+  service:
+   name: nginx
+   state: started
+
+- name: Generate a directory for /etc/prometheus
+  file:
+   path: /etc/prometheus
+   state: directory
+   group: nogroup
+   owner: nobody
+   mode: '0755'
+
+
+- name: Generate a directory for /var/lib/prometheus
+  file:
+   path: /var/lib/prometheus
+   state: directory
+   group: nogroup
+   owner: nobody
+   mode: '0755'
+
+- name: Installing a Prometheus
+  get_url:
+   url:  https://github.com/prometheus/prometheus/releases/download/v2.0.0/prometheus-2.0.0.linux-amd64.tar.gz
+   dest: /downloads
+
+- name: Prometheus file extraction
+  unarchive:
+   src: /downloads/prometheus-2.0.0.linux-amd64.tar.gz
+   dest: /downloads
+   remote_src: True
+
+- name: Duplicate the Prometheus to local
+  copy:
+   src: /downloads/prometheus-2.0.0.linux-amd64/prometheus
+   dest: /usr/local/bin/
+   remote_src: True
+
+- name: Duplicate a Prometool to local
+  copy:
+   src: /downloads/prometheus-2.0.0.linux-amd64/promtool
+   dest: /usr/local/bin/
+   remote_src: True
+
+- name: Executable prometheus
+  file:
+   path: /usr/local/bin/prometheus
+   mode: u+x,g+x,o+x
+
+- name: Executable prometool
+  file:
+   path: /usr/local/bin/promtool
+   mode: u+x,g+x,o+x
+
+- name: Duplicate consoles to /etc/prometheus directory
+  shell: 'cp -r /downloads/prometheus-2.0.0.linux-amd64/consoles /etc/prometheus'
+   
+- name: Duplicate console library to /etc/prometheus directory
+  shell: 'cp -r /downloads/prometheus-2.0.0.linux-amd64/console_libraries /etc/prometheus'
+
+- name: Generate a Prometheus configuration
+  copy:
+   src: configprometheus
+   dest: /etc/prometheus/prometheus.yml
+
+- name: Generate a file for systemd service
+  copy:
+   src: serviceprometheus
+   dest: /etc/systemd/system/prometheus.service
+
+- name: Reloading systemd services
+  systemd:
+   daemon_reload: yes
+
+- name: Starting Prometheus
+  service:
+   name: prometheus
+   enabled: yes
+   state: started
+# tasks file for roles/rolesprometheus

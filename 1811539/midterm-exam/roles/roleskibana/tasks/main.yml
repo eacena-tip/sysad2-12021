@@ -1,0 +1,66 @@
+---
+- name: Establishing a Java
+  apt:
+   name: openjdk-11-jdk
+   update_cache: yes
+
+- name: Establishing a Dependency
+  apt:
+   name: nginx
+   update_cache: yes
+
+- name: Getting Kibana GPG key and turn into APT
+  apt_key:
+   url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   state: present
+
+- name: Creating a source of list for kibana 
+  lineinfile:
+   path: /etc/apt/sources.list.d/elastic-7.x.list
+   line: '{{ kibanasource }}'
+   create: yes
+
+- name: Establishing Kibana
+  apt:
+   name: kibana
+   update_cache: yes
+
+- name: Starting kibana
+  systemd:
+   name: kibana
+   enabled: yes
+   state: started
+
+- name: Establishing a pip for htpasswd
+  apt: 
+   name: python3-pip
+   state: latest
+
+- name: Establishing a htpasswd module
+  pip:
+   name: passlib
+   state: latest
+
+- name: Creating Admin User
+  htpasswd:
+   path: /etc/nginx/htpasswd.users
+   name: kibanaadmin
+   password: '{{ kibanapassword }}'
+
+- name: Making a Nginx Virtual Host Configuration file
+  copy:
+   src: kibana
+   dest: /etc/nginx/sites-available
+
+- name: Creating hard link for kibana
+  file:
+   src: /etc/nginx/sites-available/kibana 
+   dest: /etc/nginx/sites-enabled/kibana
+   remote_src: 'yes'
+   state: link
+
+- name: Restarting nginx
+  service:
+   name: nginx
+   state: restarted
+# tasks file for roles/roleskibana
