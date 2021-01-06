@@ -1,0 +1,41 @@
+---
+- name: Downloading dhcp
+  yum:
+   name: dhcp-server
+   state: present
+   update_cache: yes
+
+- name: Downloading bind9
+  yum:
+   name:
+    - bind
+    - bind-utils
+   state: present
+   update_cache: yes
+
+- name: Downloading vsftpd
+  yum:
+   name: vsftpd
+   state: present
+   update_cache: yes
+  
+- name: Downloading samba
+  yum:
+   name:
+    - samba
+    - samba-client
+   state: present
+   update_cache: yes
+
+- name: Downloading httpd
+  yum:
+   name: httpd
+   state: present
+   update_cache: yes
+
+- name: Downloading mariadb
+  yum:
+   name: mariadb-server
+   state: present
+   update_cache: yes
+# tasks file for roles/rolescentos

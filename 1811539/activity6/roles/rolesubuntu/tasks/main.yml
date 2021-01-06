@@ -1,0 +1,37 @@
+---
+- name: Downloading dhcpd
+  apt:
+   name: isc-dhcp-server
+   state: latest
+   update_cache: yes
+
+- name: Downloading bind9
+  apt:
+   name: bind9
+   state: latest
+   update_cache: yes
+
+- name: Downloading vsftpd
+  apt:
+   name: vsftpd
+   state: latest
+   update_cache: yes
+
+- name: Downloading samba  
+  apt:
+   name: samba
+   state: latest
+   update_cache: yes
+
+- name: Downloading httpd
+  apt:
+   name: apache2
+   state: latest
+   update_cache: yes
+
+- name: Downloading mariadb
+  apt:
+   name: mariadb-server-10.3
+   state: latest
+   update_cache: yes
+# tasks file for roles/rolesubuntu
