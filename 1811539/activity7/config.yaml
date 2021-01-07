@@ -1,0 +1,11 @@
+#For Elastic_Search
+elasticsource: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+elasticnetwork: 'network.host: localhost'
+elastictimeout: "[Service]\nTimeoutStartSec=300"
+
+#For Kibana 
+kibanapassword: kibanapass
+
+#For Nagios
+usernagios: nagiosuserpass
+adminnagios: nagiosadminpass

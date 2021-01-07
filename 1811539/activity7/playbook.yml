@@ -1,0 +1,14 @@
+---
+- name: Establishing in Ubuntu
+  hosts: ubuntu
+  vars_files:
+   - config.yaml
+  roles:
+   - rolesubuntu
+
+- name: Establishing in Centos
+  hosts: centos
+  vars_files:
+   - config.yaml
+  roles:
+   - rolescentos
