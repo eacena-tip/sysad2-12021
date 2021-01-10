@@ -1,0 +1,16 @@
+---
+- name: Establishing a Elastic search with docker
+  hosts: ubuntu
+  roles:
+    - elastic
+
+- name: Establishing a kibna with docker
+  hosts: ubuntu
+  roles:
+    - kibana
+
+- name: Establishing logstash with docker
+  hosts: ubuntu
+  roles:
+    - logstash
+    

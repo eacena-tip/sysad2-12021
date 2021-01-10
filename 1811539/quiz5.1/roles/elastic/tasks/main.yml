@@ -1,0 +1,41 @@
+---
+# tasks file for roles/elastic
+- name: Establishing a Docker
+  apt:
+   name: 
+   - docker.io
+   - python3-pip
+   state: latest
+   update_cache: yes
+
+- name: Establishing a Docker Module
+  pip: 
+   name: docker
+   state: latest
+
+- name: Starting Docker
+  service:
+   name: docker
+   state: started
+   enabled: yes
+
+- name: Generate and install a container for elastic search 
+  docker_container:
+   name: elasticsearch
+   image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+   env:
+    discovery.type: "single-node"
+   ports:
+      - 9200:9200
+      - 9300:9300
+
+- name: Test the installation of elastic
+  uri:
+   url: "http://localhost:9200"
+   method: GET
+   return_content: yes
+   validate_certs: no
+  register: elastest
+
+- name: Show the result
+  debug: var=elastest

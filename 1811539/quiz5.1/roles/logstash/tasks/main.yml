@@ -1,0 +1,25 @@
+---
+- name: Generate a directory for logstash configuration
+  file:
+   path: ./downloads
+   state: directory
+
+- name: Generate logstash configuration
+  copy:
+   src: logstash.conf
+   dest: ./downloads
+
+- name: Estalish a logstash and create logstash container
+  docker_container:
+   name: logstash
+   image: docker.elastic.co/logstash/logstash:7.10.1
+   networks:
+    - name: elasticnet
+   networks_cli_compatible: yes
+   volumes:
+    - ./downloads/:/usr/share/logstash/pipeline/
+   env:
+    discovery.type: "single-node"
+   ports:
+      - 5044:5044
+# tasks file for roles/logstash
