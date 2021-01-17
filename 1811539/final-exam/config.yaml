@@ -1,0 +1,24 @@
+#Variables
+prelim_exam: https://github.com/eacena-tip/sysad2-12021.git
+
+username: eacena-tip
+
+#ftp
+writable_chroot: allow_writeable_chroot=YES
+
+configftp: "allow_writeable_chroot=YES\npasv_min_port=30000\npasv_max_port=31000\nuserlist_file=/etc/vsftpd/user_list\nuserlist_deny=NO"
+
+debianvar: "pasv_enable=Yes\npasv_min_port=10000\npasv_max_port=10100\nallow_writeable_chroot=YES\nssl_tlsv1=YES\nssl_sslv2=NO\nssl_sslv3=NO"
+
+user: ftpuser
+
+ftp_pass: $6$useramber04$h1conNGBH2MRaLSYZWTyv7u.Db8HgD5xuRmYAZ9.lOiWBrz4juifiAy00Ta0St1CB/dBgXepz53a88E/A/s770
+
+
+
+#Nagios
+
+nagiosuser_pass: $6$useramber04$h1conNGBH2MRaLSYZWTyv7u.Db8HgD5xuRmYAZ9.lOiWBrz4juifiAy00Ta0St1CB/dBgXepz53a88E/A/s770
+ 
+
+nagiosadmin_pass: erikaerika

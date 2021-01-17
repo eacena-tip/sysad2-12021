@@ -1,0 +1,64 @@
+---
+- name: Prelim exam branch was clone on centos
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - clone_centos
+
+- name: Establishing the enterprise service on centos
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - ftpcentos
+
+- name: Establshing a monitoring service on centos
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - rolescentosnagios
+
+- name: New motd for centos
+  hosts:
+    - centos
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
+
+- name: Clone the prelim exam branch in centos to debian
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - clone_debian
+
+- name: Establishing the enterprise service for debian
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - ftpdebian
+
+- name: Establishing the monitoring service for debian
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - rolesdebiannagios
+
+- name: New motd for debian
+  hosts:
+    - debian
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
