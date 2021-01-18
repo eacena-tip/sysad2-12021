@@ -1,5 +1,5 @@
 ---
-- name: Installation of clone into opensuse
+- name: Installation of git into opensuse
   zypper:
    name: git
    state: latest

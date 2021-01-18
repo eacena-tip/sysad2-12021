@@ -62,3 +62,36 @@
     - config.yaml
   roles:
     - motd
+
+- name: Clone the prelim exam branch in to opensuse
+  hosts:
+    - opensuse
+  vars_files:
+    - config.yaml
+  roles:
+    - clone_opensuse
+
+- name: Establishinng the enterprise service on opensuse
+  hosts:
+    - opensuse
+  vars_files:
+    - config.yaml
+  roles:
+    - ftpopensuse
+
+- name: Establsihing a monitoring service for opensuse
+  hosts:
+    - opensuse
+  vars_files:
+    - config.yaml
+  roles:
+    - rolessusenagios
+
+- name: New motd for opensuse
+  hosts:
+    - opensuse
+  vars_files:
+    - config.yaml
+  roles:
+    - motd
+

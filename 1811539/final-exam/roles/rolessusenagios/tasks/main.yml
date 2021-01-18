@@ -112,7 +112,7 @@
   htpasswd:
     path: /usr/local/nagios/etc/htpasswd.users
     name: nagiosadmin
-    password: '{{ nagadmin_pass }}'
+    password: '{{ nagiosadmin_pass }}'
 
 - name: Restarting Apache
   service:
